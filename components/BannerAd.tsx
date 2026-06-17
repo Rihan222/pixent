@@ -45,9 +45,17 @@ export function BannerAdView() {
         }}
         onAdFailedToLoad={(error: any) => {
           // Suppress no-fill and invalid-request errors as they're normal in development
-          const isNoFill = error?.message?.includes('no-fill') || error?.code === 'no-fill';
+          const isNoFill = error?.message?.includes('no-fill') || error?.code === 'no-fill' || error?.message?.includes('inventory');
           const isInvalidRequest = error?.message?.includes('invalid-request') || error?.code === 'invalid-request';
-          console.error("[AdMob] Banner failed to load:", { code: error?.code, message: error?.message, isNoFill, isInvalidRequest });
+          
+          if (isNoFill) {
+            console.log("[AdMob] Banner no-fill (no inventory)");
+          } else if (isInvalidRequest) {
+            console.warn("[AdMob] Banner invalid request:", error?.message);
+          } else {
+            console.error("[AdMob] Banner failed to load:", { code: error?.code, message: error?.message });
+          }
+          
           setAdLoaded(false);
           setHasError(true);
         }}

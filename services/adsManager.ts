@@ -42,10 +42,16 @@ export function isAdsEnabled(): boolean {
 }
 
 export function getBannerAdId(): string {
+  if (__DEV__) {
+    return TestIds.BANNER;
+  }
   return ADMOB_IDS.banner || TestIds.BANNER;
 }
 
 export function getInterstitialAdId(): string {
+  if (__DEV__) {
+    return TestIds.INTERSTITIAL;
+  }
   return ADMOB_IDS.interstitial || TestIds.INTERSTITIAL;
 }
 
@@ -53,10 +59,13 @@ export function getNativeAdId(): string {
   if (__DEV__) {
     return TestIds.BANNER;
   }
-  return ADMOB_IDS.banner || TestIds.BANNER;
+  return ADMOB_IDS.native || TestIds.BANNER;
 }
 
 export function getRewardedAdId(): string {
+  if (__DEV__) {
+    return TestIds.REWARDED;
+  }
   return ADMOB_IDS.rewarded || TestIds.REWARDED;
 }
 

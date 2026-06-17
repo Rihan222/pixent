@@ -67,23 +67,27 @@ export default function SoundsScreen() {
     isLoading,
     refetch,
     isRefetching,
+    isError,
+    error,
   } = useInfiniteQuery({
     queryKey: ["sounds", activeSearch, category],
     queryFn: async ({ pageParam = 1 }) => {
       const page = pageParam as number;
       if (activeSearch) {
         logger.info("SoundsTab", `Search: "${activeSearch}" page=${page}`);
-        return (await searchFreesound(activeSearch, page)).items;
+        const data = await searchFreesound(activeSearch, page);
+        return { items: data.items, hasMore: data.hasMore };
       }
       if (category !== "All") {
         logger.info("SoundsTab", `Category: "${category}" page=${page}`);
-        return (await getSoundsByCategory(category, page)).items;
+        const data = await getSoundsByCategory(category, page);
+        return { items: data.items, hasMore: data.hasMore };
       }
       logger.info("SoundsTab", `Trending page=${page}`);
-      return (await getTrendingSounds(page)).items;
+      const data = await getTrendingSounds(page);
+      return { items: data.items, hasMore: data.hasMore };
     },
-    getNextPageParam: (lastPage, pages) =>
-      lastPage.length === 0 ? undefined : pages.length + 1,
+    getNextPageParam: (lastPage, pages) => lastPage?.hasMore ? pages.length + 1 : undefined,
     initialPageParam: 1,
     retry: 2,
     retryDelay: (attempt) => attempt * 1000,
@@ -93,7 +97,7 @@ export default function SoundsScreen() {
 
   const sounds: SoundItem[] = useMemo(() => {
     return (data?.pages ?? [])
-      .flat()
+      .flatMap((page) => page.items)
       .filter((item) => {
         // 1. Filter out reported content
         if (reportedIds.includes(item.id)) return false;

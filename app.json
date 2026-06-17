@@ -31,7 +31,10 @@
         "android.permission.READ_MEDIA_IMAGES",
         "android.permission.READ_MEDIA_VIDEO",
         "android.permission.RECORD_AUDIO",
-        "android.permission.MODIFY_AUDIO_SETTINGS"
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+        "android.permission.ACCESS_MEDIA_LOCATION",
+        "android.permission.READ_MEDIA_AUDIO"
       ],
       "package": "com.rihanhadla.mobile"
     },
@@ -62,11 +65,21 @@
           "androidAppId": "ca-app-pub-4094611521207676~4215138832",
           "iosAppId": "ca-app-pub-4094611521207676~4215138832"
         }
-      ]
+      ],
+      "expo-audio",
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {
+        "origin": "https://replit.com/"
+      },
+      "eas": {
+        "projectId": "e875729a-d244-4f46-9816-62cd8400a410"
+      }
     }
   },
   "react-native-google-mobile-ads": {

@@ -273,7 +273,7 @@ export default function VideoDetailScreen() {
                     await handleDownloadWithUrl(f.url);
                   }}
                 >
-                  <Text style={styles.modalOptionText}>{f.quality.toUpperCase()}</Text>
+                  <Text style={styles.modalOptionText}>{(f.quality || "unknown").toUpperCase()}</Text>
                 </TouchableOpacity>
               ))}
               <TouchableOpacity style={styles.modalCancel} onPress={() => setShowQualityDialog(false)}>

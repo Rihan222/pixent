@@ -38,8 +38,18 @@ function mapVideo(v: PexelsVideo): VideoItem {
   // Fallback: any mp4 link
   const allFiles = sortedFiles.length > 0 ? sortedFiles : v.video_files.filter((f) => f.link);
 
+  const getQualityLabel = (f: any) => {
+    if (f.quality) return f.quality;
+    // Guess based on width
+    if (f.width >= 2160) return "4K";
+    if (f.width >= 1440) return "2K";
+    if (f.width >= 1080) return "HD";
+    if (f.width >= 720) return "SD";
+    return "LQ";
+  };
+
   const videoFiles: VideoFile[] = allFiles.map((f) => ({
-    quality: f.quality,
+    quality: getQualityLabel(f),
     url: f.link,
     width: f.width,
     height: f.height,

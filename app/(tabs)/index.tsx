@@ -76,65 +76,71 @@ export default function PhotosScreen() {
           try {
             // Use safe query instead of curated to bias content when no search/category
             const res = await searchPexelsPhotos(sessionSafeQuery, (pageParam as number) + randomSeed);
-            return res.items || [];
+            return { items: res.items || [], hasMore: res.hasMore };
           } catch (e) {
             console.warn("Pexels fetch failed:", e);
-            return [];
+            return { items: [], hasMore: false };
           }
         };
         const fetchPixabay = async () => {
           try {
             const res = await searchPixabayImages(sessionSafeQuery, (pageParam as number) + randomSeed);
-            return res.items || [];
+            return { items: res.items || [], hasMore: res.hasMore };
           } catch (e) {
             console.warn("Pixabay fetch failed:", e);
-            return [];
+            return { items: [], hasMore: false };
           }
         };
         const fetchUnsplash = async () => {
           // Temporarily disabled due to API issues
-          return [];
+          return { items: [], hasMore: false };
         };
 
         const fetchSearchPexels = async () => {
           try {
             const res = await searchPexelsPhotos(query, pageParam as number);
-            return res.items || [];
+            return { items: res.items || [], hasMore: res.hasMore };
           } catch (e) {
             console.warn("Pexels search failed:", e);
-            return [];
+            return { items: [], hasMore: false };
           }
         };
         const fetchSearchPixabay = async () => {
           try {
             const res = await searchPixabayImages(query, pageParam as number);
-            return res.items || [];
+            return { items: res.items || [], hasMore: res.hasMore };
           } catch (e) {
             console.warn("Pixabay search failed:", e);
-            return [];
+            return { items: [], hasMore: false };
           }
         };
         const fetchSearchUnsplash = async () => {
           // Temporarily disabled due to API issues
-          return [];
+          return { items: [], hasMore: false };
         };
 
         if (!query) {
-          const [pexelsItems, pixabayItems, unsplashItems] = await Promise.all([
+          const [pexelsData, pixabayData, unsplashData] = await Promise.all([
             fetchPexels(),
             fetchPixabay(),
             fetchUnsplash(),
           ]);
-          return [...pexelsItems, ...pixabayItems, ...unsplashItems];
+          return {
+            items: [...pexelsData.items, ...pixabayData.items, ...unsplashData.items],
+            hasMore: pexelsData.hasMore || pixabayData.hasMore || unsplashData.hasMore,
+          };
         }
-        const [pexelsItems, pixabayItems, unsplashItems] = await Promise.all([
+        const [pexelsData, pixabayData, unsplashData] = await Promise.all([
           fetchSearchPexels(),
           fetchSearchPixabay(),
           fetchSearchUnsplash(),
         ]);
-        return [...pexelsItems, ...pixabayItems, ...unsplashItems];
+        return {
+          items: [...pexelsData.items, ...pixabayData.items, ...unsplashData.items],
+          hasMore: pexelsData.hasMore || pixabayData.hasMore || unsplashData.hasMore,
+        };
       },
-      getNextPageParam: (_, pages) => pages.length + 1,
+      getNextPageParam: (lastPage, pages) => lastPage?.hasMore ? pages.length + 1 : undefined,
       initialPageParam: 1,
     });
 
@@ -148,7 +154,7 @@ export default function PhotosScreen() {
   const photos: PhotoItem[] = useMemo(() => {
     const seen = new Set<string>();
     return (data?.pages ?? [])
-      .flat()
+      .flatMap((page) => page.items)
       .filter((item) => {
         if (seen.has(item.id)) return false;
 

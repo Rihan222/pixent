@@ -1,0 +1,51 @@
+{
+  "cli": {
+    "version": ">= 19.0.8",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_PEXELS_API_KEY": "j4b9xo3iqtNOLrj5BtsbQWRUzKcgfOoH50wAzF7nneVldz0AmXdUkGpW",
+        "EXPO_PUBLIC_PIXABAY_API_KEY": "56098856-65f16cb6b9649ffa586c69ed9",
+        "EXPO_PUBLIC_FREESOUND_CLIENT_ID": "Q7Mg0tMvjs8piZQ15dai",
+        "EXPO_PUBLIC_FREESOUND_API_KEY": "biBEEIGVh3TMgEn44ZubEJPJioSk4dtkrwz3pTNW",
+        "EXPO_PUBLIC_ADMOB_APP_ID": "ca-app-pub-4094611521207676~4215138832",
+        "EXPO_PUBLIC_ADMOB_BANNER_ID": "ca-app-pub-4094611521207676/5855523563",
+        "EXPO_PUBLIC_ADMOB_INTERSTITIAL_ID": "ca-app-pub-4094611521207676/2689314496",
+        "EXPO_PUBLIC_ADMOB_NATIVE_ID": "ca-app-pub-4094611521207676/1019941343"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_PEXELS_API_KEY": "j4b9xo3iqtNOLrj5BtsbQWRUzKcgfOoH50wAzF7nneVldz0AmXdUkGpW",
+        "EXPO_PUBLIC_PIXABAY_API_KEY": "56098856-65f16cb6b9649ffa586c69ed9",
+        "EXPO_PUBLIC_FREESOUND_CLIENT_ID": "Q7Mg0tMvjs8piZQ15dai",
+        "EXPO_PUBLIC_FREESOUND_API_KEY": "biBEEIGVh3TMgEn44ZubEJPJioSk4dtkrwz3pTNW",
+        "EXPO_PUBLIC_ADMOB_APP_ID": "ca-app-pub-4094611521207676~4215138832",
+        "EXPO_PUBLIC_ADMOB_BANNER_ID": "ca-app-pub-4094611521207676/5855523563",
+        "EXPO_PUBLIC_ADMOB_INTERSTITIAL_ID": "ca-app-pub-4094611521207676/2689314496",
+        "EXPO_PUBLIC_ADMOB_NATIVE_ID": "ca-app-pub-4094611521207676/1019941343"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_PEXELS_API_KEY": "j4b9xo3iqtNOLrj5BtsbQWRUzKcgfOoH50wAzF7nneVldz0AmXdUkGpW",
+        "EXPO_PUBLIC_PIXABAY_API_KEY": "56098856-65f16cb6b9649ffa586c69ed9",
+        "EXPO_PUBLIC_FREESOUND_CLIENT_ID": "Q7Mg0tMvjs8piZQ15dai",
+        "EXPO_PUBLIC_FREESOUND_API_KEY": "biBEEIGVh3TMgEn44ZubEJPJioSk4dtkrwz3pTNW",
+        "EXPO_PUBLIC_ADMOB_APP_ID": "ca-app-pub-4094611521207676~4215138832",
+        "EXPO_PUBLIC_ADMOB_BANNER_ID": "ca-app-pub-4094611521207676/5855523563",
+        "EXPO_PUBLIC_ADMOB_INTERSTITIAL_ID": "ca-app-pub-4094611521207676/2689314496",
+        "EXPO_PUBLIC_ADMOB_NATIVE_ID": "ca-app-pub-4094611521207676/1019941343"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

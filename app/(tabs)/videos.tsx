@@ -75,45 +75,51 @@ export default function VideosScreen() {
       const fetchPexels = async () => {
         try {
           const res = await searchPexelsVideos(sessionSafeQuery, (pageParam as number) + randomSeed);
-          return res.items || [];
+          return { items: res.items || [], hasMore: res.hasMore };
         } catch (e) {
           console.warn("Pexels videos fetch failed:", e);
-          return [];
+          return { items: [], hasMore: false };
         }
       };
       const fetchUnsplash = async () => {
         // Temporarily disabled due to API issues
-        return [];
+        return { items: [], hasMore: false };
       };
 
       const fetchSearchPexels = async () => {
         try {
           const res = await searchPexelsVideos(activeSearch, pageParam as number);
-          return res.items || [];
+          return { items: res.items || [], hasMore: res.hasMore };
         } catch (e) {
           console.warn("Pexels videos search failed:", e);
-          return [];
+          return { items: [], hasMore: false };
         }
       };
       const fetchSearchUnsplash = async () => {
         // Temporarily disabled due to API issues
-        return [];
+        return { items: [], hasMore: false };
       };
 
       if (activeSearch) {
-        const [pexelsItems, unsplashItems] = await Promise.all([
+        const [pexelsData, unsplashData] = await Promise.all([
           fetchSearchPexels(),
           fetchSearchUnsplash(),
         ]);
-        return [...pexelsItems, ...unsplashItems];
+        return {
+          items: [...pexelsData.items, ...unsplashData.items],
+          hasMore: pexelsData.hasMore || unsplashData.hasMore,
+        };
       }
-      const [pexelsItems, unsplashItems] = await Promise.all([
+      const [pexelsData, unsplashData] = await Promise.all([
         fetchPexels(),
         fetchUnsplash(),
       ]);
-      return [...pexelsItems, ...unsplashItems];
+      return {
+        items: [...pexelsData.items, ...unsplashData.items],
+        hasMore: pexelsData.hasMore || unsplashData.hasMore,
+      };
     },
-    getNextPageParam: (_, pages) => pages.length + 1,
+    getNextPageParam: (lastPage, pages) => lastPage?.hasMore ? pages.length + 1 : undefined,
     initialPageParam: 1,
   });
 
@@ -127,7 +133,7 @@ export default function VideosScreen() {
   const videos: VideoItem[] = useMemo(() => {
     const seen = new Set<string>();
     return (data?.pages ?? [])
-      .flat()
+      .flatMap((page) => page.items)
       .filter((item) => {
         if (seen.has(item.id)) return false;
 
